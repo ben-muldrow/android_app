@@ -13,7 +13,7 @@ import com.facebook.appevents.AppEventsLogger;
 public class MainActivity extends Activity {
 
     // GUI elements
-    private TextView textView;
+    private TextView titleTextView;
     private EditText editText;
     private Button button;
 
@@ -31,7 +31,7 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
 
         // add layout objects
-        textView = (TextView)findViewById(R.id.textView);
+        titleTextView = (TextView)findViewById(R.id.titleTextView);
         editText = (EditText)findViewById(R.id.editText);
         button = (Button)findViewById(R.id.button);
 
@@ -39,7 +39,7 @@ public class MainActivity extends Activity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                textView.setText(editText.getText().toString());
+                titleTextView.setText(editText.getText().toString());
             }
         });
     }
