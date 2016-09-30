@@ -1,21 +1,33 @@
 package com.sugimoto.muldrow.android_app;
 
-import android.support.v7.app.AppCompatActivity;
+import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-public class MainActivity extends AppCompatActivity {
+import com.facebook.FacebookSdk;
+import com.facebook.appevents.AppEventsLogger;
 
+public class MainActivity extends Activity {
+
+    // GUI elements
     private TextView textView;
     private EditText editText;
     private Button button;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        // set creation state
         super.onCreate(savedInstanceState);
+
+        // start up facebook SDK and Logger
+        FacebookSdk.sdkInitialize(getApplicationContext());
+        AppEventsLogger.activateApp(this);
+
+        // set the view
         setContentView(R.layout.activity_main);
 
         // add layout objects
@@ -23,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
         editText = (EditText)findViewById(R.id.editText);
         button = (Button)findViewById(R.id.button);
 
-        // functionality
+        // change text on button click
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
