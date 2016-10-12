@@ -1,46 +1,127 @@
 package com.sugimoto.muldrow.android_app;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.facebook.AccessToken;
+import com.facebook.AccessTokenTracker;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
+import com.facebook.Profile;
+import com.facebook.ProfileTracker;
 import com.facebook.appevents.AppEventsLogger;
+import com.facebook.login.LoginManager;
+import com.facebook.login.LoginResult;
+import com.facebook.login.widget.LoginButton;
+
+import java.util.Arrays;
 
 public class MainActivity extends Activity {
 
     // GUI elements
     private TextView titleTextView;
-    private EditText editText;
     private Button button;
+    private LoginButton loginButton;
+
+    private CallbackManager callbackManager;
+    private AccessTokenTracker accessTokenTracker;
+    private AccessToken accessToken;
+    private Profile profile;
+    private ProfileTracker profileTracker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        // set creation state
+        // load saved state
         super.onCreate(savedInstanceState);
 
-        // start up facebook SDK and Logger
+        // initialize facebook's sdk and logger
         FacebookSdk.sdkInitialize(getApplicationContext());
         AppEventsLogger.activateApp(this);
+
+        // access token tracking
+        accessTokenTracker = new AccessTokenTracker() {
+            @Override
+            protected void onCurrentAccessTokenChanged(
+                    AccessToken oldAccessToken,
+                    AccessToken currentAccessToken) {
+                // Set the access token using
+                // currentAccessToken when it's loaded or set.
+            }
+        };
+
+        // profile tracking
+        profileTracker = new ProfileTracker() {
+            @Override
+            protected void onCurrentProfileChanged(
+                    Profile oldProfile,
+                    Profile currentProfile) {
+                // App code
+            }
+        };
+
+        // If the access token is available already assign it.
+        accessToken = AccessToken.getCurrentAccessToken();
+
+        // create callback manager from factory
+        callbackManager = CallbackManager.Factory.create();
 
         // set the view
         setContentView(R.layout.activity_main);
 
         // add layout objects
         titleTextView = (TextView)findViewById(R.id.titleTextView);
-        editText = (EditText)findViewById(R.id.editText);
         button = (Button)findViewById(R.id.button);
+        loginButton = (LoginButton)findViewById(R.id.login_button);
+        loginButton.setReadPermissions(Arrays.asList(
+                "public_profile", "email", "user_birthday", "user_friends"));
+
+
+        // login callback
+        loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+            @Override
+            public void onSuccess(LoginResult loginResult) {
+
+            }
+
+            @Override
+            public void onCancel() {
+
+            }
+
+            @Override
+            public void onError(FacebookException error) {
+
+            }
+        });
 
         // change text on button click
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                titleTextView.setText(editText.getText().toString());
+                // greet the user when logged in
+                titleTextView.setText("Hello, " + Profile.getCurrentProfile().getFirstName());
             }
         });
+
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        callbackManager.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        accessTokenTracker.stopTracking();
     }
 }
