@@ -8,22 +8,17 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
+    android:background="@color/colorPrimary"
     tools:context="com.sugimoto.muldrow.android_app.MainActivity">
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/titleTextView"
+        android:layout_centerHorizontal="true"
+        android:textSize="24pt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        />
-
-    <EditText
-        android:id="@+id/editText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/textView"
-        android:padding="10dp"
-        android:width="200dp"
+        android:text="Hello."
+        android:textColor="@color/colorPrimaryDark"
         />
 
     <Button
