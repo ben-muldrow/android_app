@@ -9,12 +9,14 @@ import com.facebook.AccessToken;
 public class User {
 
     private final AccessToken ACCESS_TOKEN;
+    public final User ACTIVEUSER;
 
     private String firstName;
     private String lastName;
 
     public User(AccessToken accessToken) {
         this.ACCESS_TOKEN = accessToken;
+        ACTIVEUSER = this;
     }
 
     public String getFirstName() {

@@ -27,7 +27,6 @@ public class MainActivity extends Activity {
 
     // GUI elements
     private TextView titleTextView;
-    private Button button;
     private LoginButton loginButton;
 
     private CallbackManager callbackManager;
@@ -78,7 +77,9 @@ public class MainActivity extends Activity {
 
         // add layout objects
         titleTextView = (TextView)findViewById(R.id.titleTextView);
-        button = (Button)findViewById(R.id.button);
+        if (Profile.getCurrentProfile() != null) {
+            titleTextView.setText("Welcome Back, " + Profile.getCurrentProfile().getFirstName());
+        }
         loginButton = (LoginButton)findViewById(R.id.login_button);
         loginButton.setReadPermissions(Arrays.asList(
                 "public_profile", "email", "user_birthday", "user_friends"));
@@ -102,12 +103,10 @@ public class MainActivity extends Activity {
             }
         });
 
-        // change text on button click
-        button.setOnClickListener(new View.OnClickListener() {
+        loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // greet the user when logged in
-                titleTextView.setText("Hello, " + Profile.getCurrentProfile().getFirstName());
+                titleTextView.setText("Hello, " + Profile.getCurrentProfile().getFirstName() + ".");
             }
         });
 
