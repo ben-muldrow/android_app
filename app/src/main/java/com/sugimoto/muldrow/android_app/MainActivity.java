@@ -3,6 +3,7 @@ package com.sugimoto.muldrow.android_app;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.widget.AppCompatButton;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -28,6 +29,8 @@ public class MainActivity extends Activity {
     // GUI elements
     private TextView titleTextView;
     private LoginButton loginButton;
+    private Button switchButton;
+    private AppCompatButton clickMeButton;
 
     private CallbackManager callbackManager;
     private AccessTokenTracker accessTokenTracker;
@@ -77,6 +80,8 @@ public class MainActivity extends Activity {
 
         // add layout objects
         titleTextView = (TextView)findViewById(R.id.titleTextView);
+        switchButton = (Button)findViewById(R.id.switchButton);
+        clickMeButton = (AppCompatButton)findViewById(R.id.toolbarButton);
         if (Profile.getCurrentProfile() != null) {
             titleTextView.setText("Welcome Back, " + Profile.getCurrentProfile().getFirstName());
         }
@@ -107,6 +112,13 @@ public class MainActivity extends Activity {
             @Override
             public void onClick(View v) {
                 titleTextView.setText("Hello, " + Profile.getCurrentProfile().getFirstName() + ".");
+            }
+        });
+
+        switchButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setContentView(R.layout.splash_screen);
             }
         });
 
