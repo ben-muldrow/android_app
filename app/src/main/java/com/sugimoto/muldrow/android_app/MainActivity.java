@@ -111,7 +111,9 @@ public class MainActivity extends Activity {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                titleTextView.setText("Hello, " + Profile.getCurrentProfile().getFirstName() + ".");
+                if (Profile.getCurrentProfile() != null) {
+                    titleTextView.setText("Hello, " + Profile.getCurrentProfile().getFirstName() + ".");
+                }
             }
         });
 
