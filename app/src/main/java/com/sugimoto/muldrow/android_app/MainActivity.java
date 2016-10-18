@@ -21,6 +21,8 @@ import com.facebook.appevents.AppEventsLogger;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationServices;
 
 import java.util.Arrays;
 
@@ -37,6 +39,8 @@ public class MainActivity extends Activity {
     private AccessToken accessToken;
     private Profile profile;
     private ProfileTracker profileTracker;
+
+    private GoogleApiClient mGoogleApiClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +62,14 @@ public class MainActivity extends Activity {
                 // currentAccessToken when it's loaded or set.
             }
         };
+        // Create an instance of GoogleAPIClient.
+        if (mGoogleApiClient == null) {
+            mGoogleApiClient = new GoogleApiClient.Builder(this)
+                    .addConnectionCallbacks(this)
+                    .addOnConnectionFailedListener(this)
+                    .addApi(LocationServices.API)
+                    .build();
+        }
 
         // profile tracking
         profileTracker = new ProfileTracker() {
